@@ -1,7 +1,7 @@
 /** Exercise 02 - Reverse * */
-let input = document.querySelector('#input')
-let reverse = document.querySelector('#reverse')
-let result = document.querySelector('#result')
+const input = document.querySelector('#input')
+const reverse = document.querySelector('#reverse')
+const result = document.querySelector('#result')
 
 const setError = (msg) => {
     result.style.color = 'red'

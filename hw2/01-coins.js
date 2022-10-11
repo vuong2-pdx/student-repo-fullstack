@@ -1,42 +1,46 @@
+/* eslint-disable no-console */
 /** Exercise 01 - Coins * */
 
 const calculateChange = (input) => {
     let result = `$${input} ==> `
 
-    if (input > 10.0 || input < 0.0){
-      if (input > 10.0)
-        result = result.concat('Error: the number is too large')
-      if (input < 0.0) 
-        result = result.concat('Error: the number is too small')
-      return result
+    if (input > 10.0 || input < 0.0) {
+        if (input > 10.0) result = result.concat('Error: the number is too large')
+        if (input < 0.0) result = result.concat('Error: the number is too small')
+        return result
     }
 
     let total = input * 100
-    let denom = [1, 5, 10, 25, 100]
-    let denomText = ['penn', 'nickel', 'dime', 'quarter', 'dollar']
+    const denom = [1, 5, 10, 25, 100]
+    const denomText = ['penn', 'nickel', 'dime', 'quarter', 'dollar']
     let leading = false
 
     while (total > 0) {
-      let coin = denom.pop()
-      let coinText = denomText.pop()
+        const coin = denom.pop()
+        let coinText = denomText.pop()
 
-      let amount = Math.floor(total / coin)
-      total -= amount * coin
+        const amount = Math.floor(total / coin)
+        total -= amount * coin
 
-      if (amount > 0) { // we have a vaid amount for the current denomination
-        if (amount > 1) { // plurals
-          if (coinText === 'penn'){
-            coinText = coinText.concat('ies') // pennies
-          } else {
-            coinText = coinText.concat('s') // nickels, dimes, etc...
-          }
-        } else {
-          if (coinText === 'penn')
-            coinText = coinText.concat('y') // penny
+        // we have a vaid amount for the current denomination
+        if (amount > 0) {
+            // plurals
+            if (amount > 1) {
+                if (coinText === 'penn') {
+                    coinText = coinText.concat('ies') // pennies
+                } else {
+                    coinText = coinText.concat('s') // nickels, dimes, etc...
+                }
+            } else if (coinText === 'penn') {
+                coinText = coinText.concat('y') // penny
+            }
+            result =
+                leading === true
+                    ? result.concat(', ', amount, ' ', coinText)
+                    : result.concat(amount, ' ', coinText)
+
+            leading = true
         }
-        leading === false ? result = result.concat(amount, ' ', coinText) : result = result.concat(', ', amount, ' ', coinText)
-        leading = true
-      }
     }
 
     return result
@@ -52,6 +56,8 @@ console.log(calculateChange(0.16))
 console.log(calculateChange(15.11))
 // $15.11 ==> Error: the number is too large
 console.log(calculateChange(0.99))
+// $15.11 ==> Error: the number is too large
+console.log(calculateChange(0.01))
 // $15.11 ==> Error: the number is too large
 console.log(calculateChange(-5))
 // $15.11 ==> Error: the number is too large

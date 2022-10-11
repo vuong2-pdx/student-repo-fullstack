@@ -1,3 +1,30 @@
-/** Exercise 02 - Reverse **/
+/** Exercise 02 - Reverse * */
+let input = document.querySelector('#input')
+let reverse = document.querySelector('#reverse')
+let result = document.querySelector('#result')
 
-// Add your code here
+const setError = (msg) => {
+    result.style.color = 'red'
+    result.textContent = `Error: ${msg}`
+}
+
+const setResult = (original, reversed) => {
+    result.style.color = 'green'
+    result.textContent = `${original} --> ${reversed}`
+}
+
+const reverseNum = () => {
+    if (Number.isNaN(input.value) || input.value === '') setError('Please input a valid number')
+    else {
+        const number = input.value
+        if (number > 99999999 || number < -99999999) {
+            setError('Please input an 8-digit number')
+        } else {
+            const reversedNumber =
+                parseFloat(number.toString().split('').reverse().join('')) * Math.sign(number)
+            setResult(number, reversedNumber)
+        }
+    }
+}
+
+reverse.addEventListener('click', reverseNum)

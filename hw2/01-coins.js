@@ -56,8 +56,8 @@ console.log(calculateChange(0.16))
 console.log(calculateChange(15.11))
 // $15.11 ==> Error: the number is too large
 console.log(calculateChange(0.99))
-// $15.11 ==> Error: the number is too large
+// $0.99 ==> 3 quarters, 2 dimes, 4 pennies
 console.log(calculateChange(0.01))
-// $15.11 ==> Error: the number is too large
+// $0.01 ==> 1 penny
 console.log(calculateChange(-5))
-// $15.11 ==> Error: the number is too large
+// $-5 ==> Error: the number is too small

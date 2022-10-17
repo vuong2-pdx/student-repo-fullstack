@@ -3,22 +3,20 @@ const inputName = document.querySelector('#name')
 const email = document.querySelector('#email')
 const message = document.querySelector('#message')
 const newsletter = document.querySelector('#newsletter')
-const submit = document.querySelector('#submit');
+const submit = document.querySelector('#submit')
 
-const checkMessage = (message) => {
-    if (message.length !== 0) {
-        return message
-    } else {
-        return 'No feedback was submitted.'
+const checkMessage = (msg) => {
+    if (msg.length !== 0) {
+        return msg
     }
+    return 'No feedback was submitted.'
 }
 
-const checkNewsletter = (newsletter) => {
-    if (newsletter.checked) {
+const checkNewsletter = (news) => {
+    if (news.checked) {
         return 'Yes, I would like to join the newsletter.'
-    } else {
-        return 'No, thank you.'
     }
+    return 'No, thank you.'
 }
 
 const handler = () => {

@@ -4,12 +4,12 @@ const reverse = document.querySelector('#reverse')
 const result = document.querySelector('#result')
 
 const setError = (msg) => {
-    result.style.color = 'red'
+    result.style.color = '#990505'
     result.textContent = `Error: ${msg}`
 }
 
 const setResult = (original, reversed) => {
-    result.style.color = 'green'
+    result.style.color = '#045502'
     result.textContent = `${original} --> ${reversed}`
 }
 

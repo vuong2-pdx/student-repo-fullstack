@@ -1,20 +1,18 @@
 /** Exercise 03 - Form * */
 let form = document.querySelector('form')
 
-const checkMessage = (message) => {
-    if (message.length !== 0) {
-        return message
-    } else {
-        return 'No feedback was submitted.'
+const checkMessage = (msg) => {
+    if (msg.length !== 0) {
+        return msg
     }
+    return 'No feedback was submitted.'
 }
 
 const checkNewsletter = (newsletter) => {
     if (newsletter) {
         return 'Yes, I would like to join the newsletter.'
-    } else {
-        return 'No, thank you.'
     }
+    return 'No, thank you.'
 }
 
 form.onsubmit = (event) => {

@@ -17,7 +17,7 @@ const reverseNum = () => {
     if (Number.isNaN(input.value) || input.value === '') setError('Please input a valid number')
     else {
         const number = input.value
-        if (number > 99999999 || number < -99999999) {
+        if (number.length !== 8) {
             setError('Please input an 8-digit number')
         } else {
             const reversedNumber =

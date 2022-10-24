@@ -4,16 +4,17 @@
 const calculateChange = (input) => {
     let result = `$${input} ==> `
 
-    if (input > 10.0 || input < 0.0) {
-        if (input > 10.0) result = result.concat('Error: the number is too large')
-        if (input < 0.0) result = result.concat('Error: the number is too small')
-        return result
+    if (input > 10.0) {
+        return result.concat('Error: the number is too large')
+    }
+    if (input < 0.0) {
+        return result.concat('Error: the number is too small')
     }
 
     let total = input * 100
     const denom = [1, 5, 10, 25, 100]
     const denomText = ['penn', 'nickel', 'dime', 'quarter', 'dollar']
-    let leading = false
+    let firstDenom = false
 
     while (total > 0) {
         const coin = denom.pop()
@@ -35,11 +36,11 @@ const calculateChange = (input) => {
                 coinText = coinText.concat('y') // penny
             }
             result =
-                leading === true
+                firstDenom === true
                     ? result.concat(', ', amount, ' ', coinText)
                     : result.concat(amount, ' ', coinText)
 
-            leading = true
+            firstDenom = true
         }
     }
 
@@ -56,8 +57,8 @@ console.log(calculateChange(0.16))
 console.log(calculateChange(15.11))
 // $15.11 ==> Error: the number is too large
 console.log(calculateChange(0.99))
-// $15.11 ==> Error: the number is too large
+// $0.99 ==> 3 quarters, 2 dimes, 4 pennies
 console.log(calculateChange(0.01))
-// $15.11 ==> Error: the number is too large
+// $0.01 ==> 1 penny
 console.log(calculateChange(-5))
-// $15.11 ==> Error: the number is too large
+// $-5 ==> Error: the number is too small

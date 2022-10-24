@@ -16,16 +16,16 @@
     <form class="bg-light border rounded w-50 mx-auto mt-5 p-3">
       <h1 class="mt-2 mb-4">Contact Form</h1>
       <div class="form-group">
-        <label for="name">Name *</label>
-        <input type="text" class="form-control" id="name" required>
+        <label for="fullname">Name *</label>
+        <input type="text" class="form-control" id="fullname" required name="fullname">
       </div>
       <div class="form-group">
-        <label for="email">Email *</label>
-        <input type="email" class="form-control" id="email" required>
+        <label for="email">Email *</label> 
+        <input type="email" class="form-control" id="email" required name="email">
       </div>
       <div class="form-group">
         <label for="message">Submit your message:</label>
-        <textarea type="text" class="form-control" id="message"></textarea>
+        <textarea type="text" class="form-control" id="message" name="message"></textarea>
       </div>
       <div class="form-check">
         <input type="checkbox" class="form-check-input" id="newsletter"></input>
@@ -33,10 +33,10 @@
       </div>
       <div class="btn-toolbar mt-3" role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group" role="group" aria-label="Submit button group">
-          <button type="button" class="btn btn-primary" id="submit">Submit</button>
+          <input type="submit" value="Submit" class="btn btn-primary" id="submit"></button>
         </div>
         <div class="btn-group" role="group" aria-label="Reset button group">
-          <button type="reset" class="btn btn-secondary" id="reset">Reset</button>
+          <input type="reset" value="Reset" class="btn btn-secondary" id="reset"></button>
         </div>
       </div>
     </form>

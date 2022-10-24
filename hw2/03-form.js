@@ -1,5 +1,5 @@
 /** Exercise 03 - Form * */
-let form = document.querySelector('form')
+const form = document.querySelector('form')
 
 const checkMessage = (msg) => {
     if (msg.length !== 0) {

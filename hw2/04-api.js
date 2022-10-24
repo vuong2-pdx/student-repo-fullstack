@@ -1,7 +1,22 @@
-/** Exercise 04 - API **/
+/** Exercise 04 - API * */
 
-const url = 'https://restcountries.com/v3.1/all';
+const url = 'https://restcountries.com/v2/all'
+const results = document.querySelector('#results')
 
-// Add your code here
+const getData = (myUrl) => {
+    fetch(myUrl)
+        .then((response) => {
+            return response.json()
+        })
+        .then((countries) => {
+            countries.forEach((country) => {
+                const countryItem = document.createElement('li')
 
-getData(url);
+                countryItem.innerText = `${country.name} - ${country.population.toLocaleString()}`
+                results.append(countryItem)
+            })
+        })
+        .catch((error) => console.error(error))
+}
+
+getData(url)

@@ -14,6 +14,8 @@ const port = process.env.PORT || 5001;
 // For other routes, such as http://localhost:5001/other, this exercise should return a status code 404 with '404 - page not found' in html format
 
 const server = http.createServer((req, res) => {
+  const cacheDuration = 86400
+
   const routes = [
     'welcome',
     'redirect',
@@ -43,7 +45,58 @@ const server = http.createServer((req, res) => {
     res.end();
   }
 
-  // Add your code here
+  // handle /welcome
+  else if (req.url === '/welcome') {
+    res.writeHead(200, { 'Content-Type': 'text/html' })
+    res.write('<h1>Welcome to my page!</h1>')
+    res.end()
+  }
+
+  // handle /redirect
+  else if (req.url === '/redirect') {
+    res.writeHead(302, { 'Location': '/redirected' })
+    res.end()
+  }
+
+  // handle /redirected
+  else if (req.url === '/redirected') {
+    res.writeHead(200, { 'Content-Type': 'text/html' })
+    res.write('<h1>You have been redirected!</h1>')
+    res.end()
+  }
+
+  // handle /cache
+  else if (req.url === '/cache') {
+    res.writeHead(200, { 'Content-Type': 'text/html', 'Cache-Control': `max-age=${cacheDuration}`})
+    res.write('<h1>This resource was cached</h1>')
+    res.end()
+  }
+
+  // handle /cookie
+  else if (req.url === '/cookie') {
+    res.setHeader('Cookie', ['hello=world'])
+    res.writeHead(200, { 'Content-Type': 'text/plain'})
+    res.write('cookies... yummm')
+    res.end()
+  }
+
+  // handle /check-cookies
+  else if (req.url === '/check-cookies') {
+    res.writeHead(200, { 'Content-Type': 'text/plain'})
+    if(req.headers.cookie?.includes('hello')) {
+      res.write('yes')
+    } else {
+      res.write('no')
+    }
+    res.end()
+  }
+
+  // handle 404
+  else {
+    res.writeHead(404, { 'Content-Type': 'text/html' })
+    res.write('<h1>404 - page not found</h1>')
+    res.end()
+  }
 });
 
 server.listen(port, () => {

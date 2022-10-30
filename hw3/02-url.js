@@ -37,10 +37,6 @@ const server = http.createServer((req, res) => {
 
         let htmlOutput = '<table border=2>'
 
-        if (params.keys.length === 0) {
-            htmlOutput = `${htmlOutput} <tr> No parameters provided </tr>`
-        }
-
         params.forEach((value, key) => {
             htmlOutput = `${htmlOutput}<tr>`
             htmlOutput = `${htmlOutput}<td> ${key} </td>`

@@ -36,44 +36,44 @@ const server = http.createServer((req, res) => {
     return result;
   };
 
-  if (req.url === '/') {
+  if (req.method === 'GET' && req.url === '/') {
     let routeResults = getRoutes();
 
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.write(`<h1>Exercise 01</h1>`);
     res.write(`<ul> ${routeResults} </ul>`);
-    res.end();
+    res.end()
   }
 
   // handle /welcome
-  else if (req.url === '/welcome') {
+  else if (req.method === 'GET' && req.url === '/welcome') {
     res.writeHead(200, { 'Content-Type': 'text/html' })
     res.write('<h1>Welcome to my page!</h1>')
     res.end()
   }
 
   // handle /redirect
-  else if (req.url === '/redirect') {
+  else if (req.method === 'GET' && req.url === '/redirect') {
     res.writeHead(302, { 'Location': '/redirected' })
     res.end()
   }
 
   // handle /redirected
-  else if (req.url === '/redirected') {
+  else if (req.method === 'GET' && req.url === '/redirected') {
     res.writeHead(200, { 'Content-Type': 'text/html' })
     res.write('<h1>You have been redirected!</h1>')
     res.end()
   }
 
   // handle /cache
-  else if (req.url === '/cache') {
+  else if (req.method === 'GET' && req.url === '/cache') {
     res.writeHead(200, { 'Content-Type': 'text/html', 'Cache-Control': `max-age=${cacheDuration}`})
     res.write('<h1>This resource was cached</h1>')
     res.end()
   }
 
   // handle /cookie
-  else if (req.url === '/cookie') {
+  else if (req.method === 'GET' && req.url === '/cookie') {
     res.setHeader('Cookie', ['hello=world'])
     res.writeHead(200, { 'Content-Type': 'text/plain'})
     res.write('cookies... yummm')
@@ -81,7 +81,7 @@ const server = http.createServer((req, res) => {
   }
 
   // handle /check-cookies
-  else if (req.url === '/check-cookies') {
+  else if (req.method === 'GET' && req.url === '/check-cookies') {
     res.writeHead(200, { 'Content-Type': 'text/plain'})
     if(req.headers.cookie?.includes('hello')) {
       res.write('yes')
@@ -96,7 +96,7 @@ const server = http.createServer((req, res) => {
     res.writeHead(404, { 'Content-Type': 'text/html' })
     res.write('<h1>404 - page not found</h1>')
     res.end()
-  }
+  }  
 });
 
 server.listen(port, () => {

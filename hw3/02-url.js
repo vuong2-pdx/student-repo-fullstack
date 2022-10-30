@@ -22,7 +22,7 @@ const server = http.createServer((req, res) => {
     return result;
   };
 
-  if (req.url === '/') {
+  if (req.method === 'GET' && req.url === '/') {
     let routeResults = getRoutes();
 
     res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -31,7 +31,34 @@ const server = http.createServer((req, res) => {
     res.write(`<ul> ${routeResults} </ul>`);
   }
 
-  // Add your code here
+  else if (req.method === 'GET' && req.url?.includes('?')){
+    let params = url.searchParams
+
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+
+    let htmlOutput = '<table border=2>'
+
+    if (params.keys.length === 0) {
+      htmlOut = `${htmlOutput} <tr> No parameters provided </tr>`
+    }
+
+    params.forEach((value, key) => {
+      htmlOutput = `${htmlOutput}<tr>`
+      htmlOutput = `${htmlOutput}<td> ${key} </td>`
+      htmlOutput = `${htmlOutput}<td> ${value} </td>`
+      htmlOutput = `${htmlOutput}</tr>`
+    })
+
+    htmlOutput += '</table>'
+
+    res.write(htmlOutput)
+  }
+
+  // handle 404
+  else {
+    res.writeHead(404, { 'Content-Type': 'text/html' })
+    res.write('<h1>404 - page not found</h1>')
+  }
 
   res.end();
 });

@@ -3,5 +3,3 @@ node_modules/
 .eslintrc
 .prettierrc
 *.code-workspace
-package-lock.json
-package.json

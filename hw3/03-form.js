@@ -55,7 +55,7 @@ const server = http.createServer((req, res) => {
 
     // 404 message
     else {
-        fileServer.serveFile('error.html', 200, {}, req, res)
+        fileServer.serveFile('error.html', 404, {}, req, res)
     }
 })
 

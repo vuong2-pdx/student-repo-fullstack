@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const { query, response } = require('express');
 
 const app = express();
 const port = process.env.PORT || 5001;
@@ -9,10 +10,8 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
 
 // REST Countries URL
-const url = 'https://restcountries.com/v3.1/all';
-
-// Add your code here
-
+const allUrl = 'https://restcountries.com/v3.1/all';
+const regionUrl = 'https://restcountries.com/v3.1/region'
 app.get('/', (req, res) => {
   // render pug template for the index.html file
 
@@ -22,40 +21,73 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/capitals', (req, res) => {
+const sortCountries = (first, second) => {
+  return first.name.common.localeCompare(second.name.common)
+}
+
+const formatCapital = (country) => {
+  return (country.capital.length === 0
+  ? `${country.name.common} - no data`
+  : `${country.name.common} - ${country.capital}`
+  )
+}
+
+app.get('/capitals', async (req, res) => {
   // map the output array to create an array with country names and capitals
   // check for empty data in the output array
 
-  let countries = ['Afghanistan', 'Aland Islands', 'Albania'];
+  const query = await axios.get(`${allUrl}?fields=name;capital`)
 
   res.render('page', {
     heading: 'Countries and Capitals',
-    results: countries,
+    results: query.data.sort(sortCountries).map(formatCapital)
   });
 });
 
-app.get('/populous', (req, res) => {
+const filterPopulation = (country) => {
+  return (country.population >= 50000000)
+}
+const sortPopulation = (first, second) => {
+  return second.population - first.population
+}
+
+const formatPopulation = (country) => {
+  return `${country.name.common} - ${country.population.toLocaleString()}`
+}
+
+app.get('/populous', async (req, res) => {
   // filter the output array for the countries with population of 50 million or more
   // sort the resulting array to show the results in order of population
   // map the resulting array into a new array with the country name and formatted population
-
-  let populous = ['China', 'India', 'United States of America'];
+  const query = await axios.get(`${allUrl}`)
 
   res.render('page', {
     heading: 'Most Populous Countries',
-    results: populous,
+    results: query.data.filter(filterPopulation).sort(sortPopulation).map(formatPopulation)
   });
 });
 
-app.get('/regions', (req, res) => {
+const formatRegion = (regionData, name) => {
+  return `${name} - ${regionData.length}`
+}
+
+app.get('/regions', async (req, res) => {
   // reduce the output array in a resulting object that will feature the numbers of countries in each region
   // disregard empty data from the output array
 
-  let regions = ['Asia - 50', 'Europe - 53', 'Africa - 60'];
+  const asiaRegion = await axios.get(`${regionUrl}/Asia`)
+  const europeRegion = await axios.get(`${regionUrl}/Europe`)
+  const africaRegion = await axios.get(`${regionUrl}/Africa`)
+  const oceaniaRegion = await axios.get(`${regionUrl}/Oceania`)
+  const americasRegion = await axios.get(`${regionUrl}/Americas`)
 
   res.render('page', {
     heading: 'Regions of the World',
-    results: regions,
+    results: [ formatRegion(asiaRegion.data, 'Asia'),
+                formatRegion(europeRegion.data, 'Europe'),
+                formatRegion(africaRegion.data, 'Africa'),
+                formatRegion(oceaniaRegion.data, 'Oceania'),
+                formatRegion(americasRegion.data, 'Americas')]
   });
 });
 

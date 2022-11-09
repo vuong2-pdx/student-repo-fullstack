@@ -32,16 +32,18 @@ const formatCapital = (country) => {
   )
 }
 
-app.get('/capitals', async (req, res) => {
+app.get('/capitals', (req, res) => {
   // map the output array to create an array with country names and capitals
   // check for empty data in the output array
 
-  const query = await axios.get(`${allUrl}?fields=name;capital`)
-
-  res.render('page', {
-    heading: 'Countries and Capitals',
-    results: query.data.sort(sortCountries).map(formatCapital)
-  });
+  axios
+  .get(`${allUrl}?fields=name;capital`)
+  .then((response) => {
+    res.render('page', {
+      heading: 'Countries and Capitals',
+      results: response.data.sort(sortCountries).map(formatCapital)
+    })
+  })
 });
 
 const filterPopulation = (country) => {
@@ -55,40 +57,44 @@ const formatPopulation = (country) => {
   return `${country.name.common} - ${country.population.toLocaleString()}`
 }
 
-app.get('/populous', async (req, res) => {
+app.get('/populous', (req, res) => {
   // filter the output array for the countries with population of 50 million or more
   // sort the resulting array to show the results in order of population
   // map the resulting array into a new array with the country name and formatted population
-  const query = await axios.get(`${allUrl}`)
-
-  res.render('page', {
-    heading: 'Most Populous Countries',
-    results: query.data.filter(filterPopulation).sort(sortPopulation).map(formatPopulation)
-  });
+  axios
+  .get(`${allUrl}`)
+  .then((response) => {
+    res.render('page', {
+      heading: 'Most Populous Countries',
+      results: response.data.filter(filterPopulation).sort(sortPopulation).map(formatPopulation)
+    })
+  })
 });
 
 const formatRegion = (regionData, name) => {
-  return `${name} - ${regionData.length}`
+  return `${name} - ${regionData.data.length}`
 }
 
 app.get('/regions', async (req, res) => {
   // reduce the output array in a resulting object that will feature the numbers of countries in each region
   // disregard empty data from the output array
 
-  const asiaRegion = await axios.get(`${regionUrl}/Asia`)
-  const europeRegion = await axios.get(`${regionUrl}/Europe`)
-  const africaRegion = await axios.get(`${regionUrl}/Africa`)
-  const oceaniaRegion = await axios.get(`${regionUrl}/Oceania`)
-  const americasRegion = await axios.get(`${regionUrl}/Americas`)
+  const regions = ['Asia', 'Europe', 'Africa', 'Oceania', 'Americas']
+  let allRegions = []
 
-  res.render('page', {
-    heading: 'Regions of the World',
-    results: [ formatRegion(asiaRegion.data, 'Asia'),
-                formatRegion(europeRegion.data, 'Europe'),
-                formatRegion(africaRegion.data, 'Africa'),
-                formatRegion(oceaniaRegion.data, 'Oceania'),
-                formatRegion(americasRegion.data, 'Americas')]
-  });
+  Promise.all(regions.map(async (region) => {
+      const regionData = await axios.get(`${regionUrl}/${region}`)
+      allRegions.push(formatRegion(regionData, region))
+  }))
+  .then(() => {
+    res.render('page', {
+      heading: 'Regions of the World',
+      results: allRegions
+    })
+  })
+  .catch((error) => {
+    console.log(error)
+  })
 });
 
 app.listen(port, () => {

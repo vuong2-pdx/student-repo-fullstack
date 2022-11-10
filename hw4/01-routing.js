@@ -64,13 +64,6 @@ app.get('/cookie', (req, res) => {
         .send('cookies… yummm')
 })
 
-app.get('/cookie', (req, res) => {
-    res.status(200)
-        .set({ 'Content-Type': 'text/plain' })
-        .cookie('hello', 'world')
-        .send('cookies… yummm')
-})
-
 app.use((req, res) => {
     res.status(404).set({ 'Content-Type': 'text/html' }).send('<h1>404 - page not found</h1>')
 })

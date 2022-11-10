@@ -78,9 +78,6 @@ const server = http.createServer((req, res) => {
 
     // handle /cookie
     else if (req.method === 'GET' && req.url === '/cookie') {
-        // req.statusCode(200)
-        // res.setHeader('Content-Type', 'text/plain')
-        // res.setHeader('Set-Cookie', ['hello=world'])
         res.setHeader('Set-Cookie', ['hello=world'])
         res.writeHead(200, { 'Content-Type': 'text/plain' })
         res.write('cookies... yummm')
